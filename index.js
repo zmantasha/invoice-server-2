@@ -59,6 +59,9 @@ app.use(passport.initialize());
 app.use(cookieParser())
 
 // routes
+app.get('/', (req, res) => {
+    res.send('products api running new deploy');
+});
 app.use("/api/v1/user", userRoutes)
 app.use("/api/v1/invoice", invoiceRoutes)
 // Google Auth Routes
