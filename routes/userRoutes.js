@@ -20,8 +20,24 @@ router.post("/login",validateLoginUser,UserMiddleware.fetchEmailIncollection, Us
 router.post("/refresh-token", UserController.getNewAccessToken)
 router.get("/me",verifyauthJwttoken,passport.authenticate('jwt', { session: false }), UserController.userProfile)
 router.put("/me/:id",validateUpdateUser,verifyauthJwttoken,passport.authenticate('jwt', { session: false }),  UserController.updateProfile)
-router.put("/me/:id/avatar",upload.single("avatar"),validateUpdateFileUser,verifyauthJwttoken,passport.authenticate('jwt', { session: false }),  UserController.updateAvatarImage)
-router.put("/me/:id/logo",upload.single("logo"),validateUpdateFileUser,verifyauthJwttoken,passport.authenticate('jwt', { session: false }),  UserController.updateLogoImage)
+router.put(
+  "/me/:id/avatar",
+  passport.authenticate("jwt", { session: false }),
+  verifyauthJwttoken,
+  upload.single("avatar"),
+  validateUpdateFileUser,
+  UserController.updateAvatarImage
+);
+
+// Update Logo
+router.put(
+  "/me/:id/logo",
+  passport.authenticate("jwt", { session: false }),
+  verifyauthJwttoken,
+  upload.single("logo"),
+  validateUpdateFileUser,
+  UserController.updateLogoImage
+);
 router.delete("/me/:id",verifyauthJwttoken,passport.authenticate('jwt', { session: false }),  UserController.deleteProfile)
 router.post("/logout",verifyauthJwttoken,passport.authenticate('jwt', { session: false }), UserController.userlogout)
 
