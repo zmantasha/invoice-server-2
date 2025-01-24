@@ -23,6 +23,6 @@ router.put("/me/:id",validateUpdateUser,verifyauthJwttoken,passport.authenticate
 router.put("/me/:id/avatar",validateUpdateFileUser,verifyauthJwttoken,passport.authenticate('jwt', { session: false }),upload.single("avatar"),  UserController.updateAvatarImage)
 router.put("/me/:id/logo",validateUpdateFileUser,verifyauthJwttoken,passport.authenticate('jwt', { session: false }),upload.single("logo"),  UserController.updateLogoImage)
 router.delete("/me/:id",verifyauthJwttoken,passport.authenticate('jwt', { session: false }),  UserController.deleteProfile)
-router.post("/logout",verifyauthJwttoken,accessTokenAutoRefresh,passport.authenticate('jwt', { session: false }), UserController.userlogout)
+router.post("/logout",verifyauthJwttoken,passport.authenticate('jwt', { session: false }), UserController.userlogout)
 
 module.exports= router;
