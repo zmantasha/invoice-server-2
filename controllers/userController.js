@@ -184,16 +184,16 @@ try {
 
   static deleteProfile=async(req,res)=>{
     try {
-    const refreshToken=req.cookies.refreshToken;
+    // const refreshToken=req.cookies.refreshToken;
     console.log(req.params.id)
     const user= await UserServicesInstance.findUserbyId(req.params.id)
     
     if (!user) return res.status(404).json({ message: "user not found with this given Id" });
     await UserServicesInstance.deleteUser(req.params.id)
-    await UserRefreshTokenServicesInstance.findOneAndUpdate(refreshToken)
-    res.clearCookie('accessToken');
-    res.clearCookie('refreshToken');
-    res.clearCookie('is_auth')
+    // await UserRefreshTokenServicesInstance.findOneAndUpdate(refreshToken)
+    // res.clearCookie('accessToken');
+    // res.clearCookie('refreshToken');
+    // res.clearCookie('is_auth')
     res.status(200).json({status:"success", message:"delete user successful"})
     } catch (error) {
     if(error.message.includes("Cast to ObjectId failed"))
@@ -206,13 +206,13 @@ try {
 // Logout
     static userlogout= async(req,res)=>{
   try {
-    const refreshToken=req.cookies.refreshToken;
-    console.log(refreshToken)
-    await UserRefreshTokenServicesInstance.findOneAndUpdate(refreshToken)
+    // const refreshToken=req.cookies.refreshToken;
+    // console.log(refreshToken)
+    // await UserRefreshTokenServicesInstance.findOneAndUpdate(refreshToken)
     
-    res.clearCookie('accessToken');
-    res.clearCookie('refreshToken');
-    res.clearCookie('is_auth')
+    // res.clearCookie('accessToken');
+    // res.clearCookie('refreshToken');
+    // res.clearCookie('is_auth')
     res.status(200).json({status:"success", message:"logout successful"})
   } catch (error) {
     console.log(error)
