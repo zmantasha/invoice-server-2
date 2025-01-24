@@ -12,7 +12,7 @@ const router= express.Router()
 const validateRegistrationUser=validateSchema(UserValidation.registrationValidateSchema)
 const validateLoginUser=validateSchema(UserValidation.loginValidateSchema)
 const validateUpdateUser=validateSchema(UserValidation.updateUserValidateSchema)
-// const validateUpdateFileUser=validateSchema(UserValidation.updateUserFileValidateSchema)
+const validateUpdateFileUser=validateSchema(UserValidation.updateUserFileValidateSchema)
 
 // Routes
 router.post("/registration",validateRegistrationUser, UserController.userRegistration)
@@ -25,6 +25,7 @@ router.put(
   passport.authenticate("jwt", { session: false }),
   verifyauthJwttoken,
   upload.single("avatar"),
+  validateUpdateFileUser,
   UserController.updateAvatarImage
 );
 
@@ -34,6 +35,7 @@ router.put(
   passport.authenticate("jwt", { session: false }),
   verifyauthJwttoken,
   upload.single("logo"),
+  validateUpdateFileUser,
   UserController.updateLogoImage
 );
 router.delete("/me/:id",verifyauthJwttoken,passport.authenticate('jwt', { session: false }),  UserController.deleteProfile)
