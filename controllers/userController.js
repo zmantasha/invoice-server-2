@@ -152,7 +152,12 @@ static updateAvatarImage =async(req,res)=>{
      return res.status(400).json({ message: "Error while uploading on Avatar." });
     }
     const user= await UserServicesInstance.updateAvatar(req.params.id,avatar.url)
-    res.status(200).json({ user }); 
+     res.setHeader("Content-Type", "application/json");
+    res.status(200).json({
+    status: "success",
+    message: "Logo updated successfully.",
+    user 
+    }); 
   } catch (error) {
     console.log(error)
   }
