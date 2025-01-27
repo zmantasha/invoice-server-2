@@ -8,6 +8,7 @@ const connectDB = require("./config/connectDb");
 const cookieParser = require("cookie-parser");
 const cors= require("cors")
 const passport= require("passport")
+const cloudnary =require("cloudinary")
 // const setTokensCookies = require("./utils/setTokenCookies")
 // const upload = require("./middleware/FileUploder")
 require("./config/passport-jwt-strategy")
@@ -57,7 +58,12 @@ app.use(passport.initialize());
 
 // Cookie Parser
 app.use(cookieParser())
-
+//cloudnary
+cloudnary.v2.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+})
 // routes
 app.get('/', (req, res) => {
     res.send('products api running new deploy');
