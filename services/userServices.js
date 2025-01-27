@@ -101,9 +101,9 @@ verifyPassword=async(password,hashedPassword)=>{
   }
 
 //   update Avatar
-updateAvatar=async(id,avatarUrl)=>{
+updateAvatar=async(id,mycloud)=>{
 try {
-   const updateUser= await userModel.findByIdAndUpdate({_id:id},{avatar:avatarUrl},{new:true})
+   const updateUser= await userModel.findByIdAndUpdate({_id:id},{avatar:mycloud.secure_url},{new:true})
        return updateUser 
 } catch (error) {
    throw error
