@@ -22,13 +22,13 @@ router.post("/refresh-token", UserController.getNewAccessToken)
 router.get("/me",verifyauthJwttoken,passport.authenticate('jwt', { session: false }), UserController.userProfile)
 router.put("/me/:id",validateUpdateUser,verifyauthJwttoken,passport.authenticate('jwt', { session: false }),  UserController.updateProfile)
 router.put(
-  "/me/:id/avatar",
-  passport.authenticate("jwt", { session: false }),
-  verifyauthJwttoken,
-  upload.single("avatar"),
-  // validateUpdateFileUser,
-  UserController.updateAvatarImage
-);
+    "/me/avatar/:id",
+    passport.authenticate("jwt", { session: false }),
+    verifyauthJwttoken,
+    singleUpload,
+    // validateUpdateFileUser,
+    UserController.updateAvatarImage
+  );
 
 // Update Logo
  router.put(
