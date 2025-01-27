@@ -109,9 +109,9 @@ try {
    throw error
 }
 }
-updateLogo=async(id,logoUrl)=>{
+updateLogo=async(id,mycloud)=>{
    try{
-   const updateUser= await userModel.findByIdAndUpdate({_id:id},{logo:logoUrl},{new:true})
+   const updateUser= await userModel.findByIdAndUpdate({_id:id},{logo:mycloud.secure_url},{new:true})
    return updateUser 
 } catch (error) {
 throw error
