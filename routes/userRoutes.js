@@ -8,6 +8,7 @@ const accessTokenAutoRefresh = require("../middleware/accessTokenAutoRefresh");
 const upload = require("../middleware/FileUploder");
 const verifyauthJwttoken = require("../middleware/authMiddleware");
 const router= express.Router()
+const singleUpload = require("../middleware/multer");
 
 const validateRegistrationUser=validateSchema(UserValidation.registrationValidateSchema)
 const validateLoginUser=validateSchema(UserValidation.loginValidateSchema)
@@ -30,14 +31,14 @@ router.put(
 );
 
 // Update Logo
-router.put(
-  "/me/:id/logo",
-  passport.authenticate("jwt", { session: false }),
-  verifyauthJwttoken,
-  upload.single("logo"),
-  // validateUpdateFileUser,
-  UserController.updateLogoImage
-);
+ router.put(
+    "/me/logo/:id",
+    passport.authenticate("jwt", { session: false }),
+    verifyauthJwttoken,
+    singleUpload,
+    // validateUpdateFileUser,
+    UserController.updateLogoImage
+  );
 router.delete("/me/:id",verifyauthJwttoken,passport.authenticate('jwt', { session: false }),  UserController.deleteProfile)
 router.post("/logout",verifyauthJwttoken,passport.authenticate('jwt', { session: false }), UserController.userlogout)
 
