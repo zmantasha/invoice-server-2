@@ -167,25 +167,24 @@ static updateAvatarImage =async(req,res)=>{
 
 // upload logo
 
+
 static updateLogoImage= async(req,res)=>{
 try {
-  const logoLocalPath =req.file?.path
-  console.log(logoLocalPath)
+  const logoLocalPath =req.file
+  console.log("logoLocalPath",logoLocalPath)
   if(!logoLocalPath){
-   return res.status(400).json({ message: "Avatar File is missing." });
+   return res.status(400).json({ message: "logo File is missing." });
   }
-  const logo= await uploadOnCloudinary(logoLocalPath)
-  console.log(logo)
-  if(!logo.url){
-   return res.status(400).json({ message: "Error while uploading on Avatar." });
-  }
-  const user= await UserServicesInstance.updateLogo(req.params.id,logo.url)
-  res.setHeader("Content-Type", "application/json");
-  res.status(200).json({ 
-    status: "success",
-    message: "Logo updated successfully.",
-    user
-  }); 
+  const fileUri=getDataUri(logoLocalPath)
+  const mycloud=await cloudnary.v2.uploader.upload(fileUri.content)
+  // const logo= await uploadOnCloudinary(logoLocalPath)
+  console.log(mycloud)
+
+  // if(!logo.url){
+  //  return res.status(400).json({ message: "Error while uploading on Avatar." });
+  // }
+  const user= await UserServicesInstance.updateLogo(req.params.id,mycloud)
+  res.status(200).json({ user }); 
 } catch (error) {
   console.log(error)
 }
