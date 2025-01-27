@@ -5,6 +5,8 @@ const UserRefreshTokenServicesInstance= new UserRefreshTokenServices()
 const UserServicesInstance= new UserServices()
 const setTokensCookies = require("../utils/setTokenCookies");
 const uploadOnCloudinary = require("../utils/cloudinary");
+const getDataUri = require("../utils/dataUri");
+const cloudnary =require("cloudinary")
 class UserController{
   // Registration controller
     static userRegistration=async(req,res)=>{
