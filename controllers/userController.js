@@ -141,25 +141,22 @@ static updateProfile = async (req, res) => {
 
 // update Profile 
 
+
 static updateAvatarImage =async(req,res)=>{
   try {
-    const avatarLocalPath =req.file?.path
+    const avatarLocalPath =req.file
     console.log(avatarLocalPath)
     if(!avatarLocalPath){
      return res.status(400).json({ message: "Avatar File is missing." });
     }
-    const avatar= await uploadOnCloudinary(avatarLocalPath)
-    console.log(avatar)
-    if(!avatar.url){
-     return res.status(400).json({ message: "Error while uploading on Avatar." });
-    }
-    const user= await UserServicesInstance.updateAvatar(req.params.id,avatar.url)
-     res.setHeader("Content-Type", "application/json");
-    res.status(200).json({
-    status: "success",
-    message: "Logo updated successfully.",
-    user 
-    }); 
+    const fileUri=getDataUri(avatarLocalPath)
+    const mycloud=await cloudnary.v2.uploader.upload(fileUri.content)
+    console.log(mycloud)
+    // if(!avatar.url){
+    //  return res.status(400).json({ message: "Error while uploading on Avatar." });
+    // }
+    const user= await UserServicesInstance.updateAvatar(req.params.id,mycloud)
+    res.status(200).json({ user }); 
   } catch (error) {
     console.log(error)
   }
