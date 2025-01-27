@@ -2,6 +2,8 @@ const InvoiceServices = require("../services/invoiceServices");
 const InvoiceServiceInstance = new InvoiceServices();
 const crypto = require("crypto");
 const  uploadOnCloudinary = require("../utils/cloudinary");
+const getDataUri = require("../utils/dataUri");
+const cloudnary =require("cloudinary")
 class InvoiceController {
   // Create a new invoice
   static createInvoice = async (req, res) => {
@@ -31,16 +33,19 @@ class InvoiceController {
 //   return url;
 // }  
 
+
 static uploadSenderLogo=async(req,res)=>{
     try {
-      const filePath = req.file.path; // Path of the uploaded file
-      const cloudinaryResponse = await uploadOnCloudinary(filePath); // Upload to Cloudinary
+      const filePath = req.file; // Path of the uploaded file
+      if(!filePath){
+        return res.status(400).json({ message: "Avatar File is missing." });
+       }
+       const fileUri=getDataUri(filePath)
+      const mycloud=await cloudnary.v2.uploader.upload(fileUri.content)
+      console.log(mycloud)
+
   
-      if (!cloudinaryResponse) {
-        return res.status(500).json({ message: "Error uploading logo" });
-      }
-  
-      res.status(200).json({ logoUrl: cloudinaryResponse.url });
+      res.status(200).json({ logoUrl:mycloud.secure_url });
   } catch (error) {
     console.error("Error in upload-logo route:", error);
     res.status(500).json({ message: "Internal server error" }); 
