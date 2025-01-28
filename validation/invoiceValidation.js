@@ -55,7 +55,7 @@ const invoiceValidationSchema = Joi.object({
     taxRate: Joi.number().min(0).allow(null),
     shipping: Joi.number().min(0).allow(null),
     discount: Joi.number().min(0).allow(null),
-    discountType: Joi.string().valid("percentage", "flat").default("percentage"),
+    discountType: Joi.number().min(0).allow(null),
     shippingType: Joi.string().valid("percentage", "flat").default("percentage"),
     total: Joi.number().required().min(0),
     amountPaid: Joi.number().min(0).allow(null),
