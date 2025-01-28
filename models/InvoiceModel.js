@@ -83,7 +83,7 @@ id: { type: String, required: true, default: () => crypto.randomUUID() }, // id 
     taxRate: { type: Number, default: 0 },
     shipping: { type: Number, default: 0 },
     discount: { type: Number, default: 0 },
-    discountType: { type: String, default: "percentage" },
+    discountType: { type: Number, default: 0 },
     shippingType: { type: String, default: "percentage" },
     total: { type: Number, default: 0 },
     amountPaid: { type: Number, default: 0 },
