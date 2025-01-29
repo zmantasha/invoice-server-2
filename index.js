@@ -86,7 +86,7 @@ app.get('/auth/google',
           sameSite: 'Strict', // Helps with CORS issues
         });
       // Successful authentication, redirect home.
-                res.redirect(`${process.env.FRONTEND_HOST}/user/myinvoice?token=${accessToken}`);
+                res.redirect(`${process.env.FRONTEND_HOST}/user/myinvoice`);
     });
   // app.get('/auth/google/callback', 
   //   passport.authenticate('google', { session: false, failureRedirect: `${process.env.FRONTEND_HOST}/account/login`}),
