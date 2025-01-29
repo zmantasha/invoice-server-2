@@ -80,7 +80,7 @@ app.get('/auth/google',
         (req, res) => {
           const { token } = req.user;
             res.cookie('accessToken', token, {
-          httpOnly: true, // Helps to prevent XSS attacks
+          httpOnly: false, // Helps to prevent XSS attacks
           secure: true, // Set secure cookie for production
           maxAge: 36 * 10000, // Set expiration time of the token (in milliseconds)
           sameSite: 'None', // Helps with CORS issues
