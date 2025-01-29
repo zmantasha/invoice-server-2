@@ -57,6 +57,7 @@ app.use(express.json());
 app.use(passport.initialize());
 
 // Cookie Parser
+app.use(express.urlencoded({extended:true}))
 app.use(cookieParser())
 //cloudnary
 cloudnary.v2.config({
