@@ -79,12 +79,13 @@ app.get('/auth/google',
     (req, res)=> {
         const {accessToken} = req.user; 
         console.log(accessToken)
-        res.cookie('accessToken', accessToken, {
-          httpOnly: true, // Helps to prevent XSS attacks
-          secure: process.env.NODE_ENV === 'production', // Set secure cookie for production
-          maxAge: 36 * 10000, // Set expiration time of the token (in milliseconds)
-          sameSite: 'None', // Helps with CORS issues
-        });
+      res.cookie('accessToken', accessToken, {
+      httpOnly: true,          // Prevents XSS attacks
+      secure: true,            // Required for HTTPS on Render
+      maxAge: 36 * 10000,      // Expiry in milliseconds
+      sameSite: 'None',        // Allows cross-origin cookies
+    });
+
       // Successful authentication, redirect home.
                 res.redirect(`${process.env.FRONTEND_HOST}/user/myinvoice`);
     });
