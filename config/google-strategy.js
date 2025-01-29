@@ -51,6 +51,7 @@
 // ));
 
 
+
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const passport = require("passport");
 const bcrypt = require('bcrypt');
@@ -68,10 +69,11 @@ const generateToken = async (payload) => {
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: "/auth/google/callback"
+  callbackURL: `/auth/google/callback` // Make sure this matches your Google Console setting
 },
   async (accessToken, refreshToken, profile, done) => {
     try {
+      // Check if the user exists
       let user = await UserServicesInstance.findByEmail(profile._json.email);
       if (!user) {
         const lastSixDigitsID = profile.id.substring(profile.id.length - 6);
@@ -79,7 +81,8 @@ passport.use(new GoogleStrategy({
         const newPass = lastTwoDigitsName + lastSixDigitsID;
         const salt = await bcrypt.genSalt(Number(process.env.SALT));
         const hashedPassword = await bcrypt.hash(newPass, salt);
-        console.log(profile);
+        
+        // Create new user if not found
         user = await userModel.create({
           firstName: profile._json.name,
           lastName: '',
@@ -89,15 +92,17 @@ passport.use(new GoogleStrategy({
         });
       }
 
-      // Generate JWT token
-      const accessToken = await generateToken({ userId: user._id });
+      // Generate JWT token for the user
+      const token = await generateToken({ userId: user._id });
       console.log("user", user._id);
-      console.log("access", accessToken);
+      console.log("access token", token);
 
-      return done(null, { user, accessToken });
+      // Return user info and the generated token
+      return done(null, { user, token });
+
     } catch (error) {
+      console.error("Error in Google Strategy:", error); // Log the error for debugging
       return done(error);
     }
   }
 ));
-
