@@ -77,7 +77,7 @@ app.get('/auth/google',
   app.get('/auth/google/callback', 
     passport.authenticate('google', { session: false, failureRedirect: `${process.env.FRONTEND_HOST}/account/login`}),
     (req, res)=> {
-        const { user, accessToken} = req.user; 
+        const {accessToken} = req.user; 
         console.log(accessToken)
         res.cookie('accessToken', accessToken, {
           httpOnly: true, // Helps to prevent XSS attacks
@@ -86,7 +86,7 @@ app.get('/auth/google',
           sameSite: 'Strict', // Helps with CORS issues
         });
       // Successful authentication, redirect home.
-      res.redirect(`${process.env.FRONTEND_HOST}/user/myinvoice`);
+                res.redirect(`${process.env.FRONTEND_HOST}/user/myinvoice?token=${accessToken}`);
     });
   // app.get('/auth/google/callback', 
   //   passport.authenticate('google', { session: false, failureRedirect: `${process.env.FRONTEND_HOST}/account/login`}),
