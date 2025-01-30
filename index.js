@@ -86,7 +86,7 @@ app.get('/auth/google',
           sameSite: 'None', // Helps with CORS issues
         });
           // Redirect to frontend with the token in the query string
-          res.redirect(`${process.env.FRONTEND_HOST}/user/myinvoice?token=${token}`);
+          res.redirect(`${process.env.FRONTEND_HOST}/user/myinvoice`);
         }
       );
   // app.get('/auth/google/callback', 
