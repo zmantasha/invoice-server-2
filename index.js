@@ -75,20 +75,20 @@ app.use("/api/v1/invoice", invoiceRoutes)
 app.get('/auth/google',
     passport.authenticate('google', { session: false, scope: ['profile', 'email'] }));
 
-    app.get('/auth/google/callback', 
-        passport.authenticate('google', { session: false, failureRedirect: `${process.env.FRONTEND_HOST}/account/login` }),
-        (req, res) => {
+     app.get('/auth/google/callback', 
+      passport.authenticate('google', { session: false, failureRedirect: `${process.env.FRONTEND_HOST}/account/login` }),
+      (req, res) => {
+          if (!req.user || !req.user.token) {
+              return res.redirect(`${process.env.FRONTEND_HOST}/account/login?error=NoToken`);
+          }
+  
           const { token } = req.user;
-            res.cookie('accessToken', token, {
-          httpOnly: false, // Helps to prevent XSS attacks
-          secure: true, // Set secure cookie for production
-          maxAge: 36 * 10000, // Set expiration time of the token (in milliseconds)
-          sameSite: 'None', // Helps with CORS issues
-        });
-          // Redirect to frontend with the token in the query string
-          res.redirect(`${process.env.FRONTEND_HOST}/user/myinvoice`);
-        }
-      );
+  
+          // Redirect frontend with token in query params
+          res.redirect(`${process.env.FRONTEND_HOST}/google/callback?token=${token}`);
+          // res.redirect(`${process.env.FRONTEND_HOST}/google/callback`);
+      }
+  );
   // app.get('/auth/google/callback', 
   //   passport.authenticate('google', { session: false, failureRedirect: `${process.env.FRONTEND_HOST}/account/login`}),
   //   (req, res)=> {
