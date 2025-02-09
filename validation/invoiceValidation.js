@@ -4,24 +4,24 @@ const Joi = require("joi");
 const invoiceValidationSchema = Joi.object({
   userId: Joi.string(), 
   senderDetails: Joi.object({
-    logo: Joi.string().allow("", null),
-    name: Joi.string().required(),
-    address: Joi.string().required(),
+    logo: Joi.string().trim().allow("", null),
+    name: Joi.string().trim().required(),
+    address: Joi.string().trim().required(),
     // email: Joi.string().email(),
     // phone: Joi.string().min(10).max(15),
   }),
   
   recipientDetails: Joi.object({
     billTo: Joi.object({
-      name: Joi.string().required(),
-      address: Joi.string().required(),
+      name: Joi.string().trim().required(),
+      address: Joi.string().trim().required(),
       // email: Joi.string().email(),
       // phone: Joi.string().min(10).max(15),
     }),
     
     shipTo: Joi.object({
-      name: Joi.string().allow("", null),
-      address: Joi.string().allow("", null),
+      name: Joi.string().trim().allow("", null),
+      address: Joi.string().trim().allow("", null),
       // email: Joi.string().email().allow("", null),
       // phone: Joi.string().min(10).max(15).allow("", null),
     }).allow(null),  // `shipTo` is optional, can be null
@@ -62,8 +62,8 @@ const invoiceValidationSchema = Joi.object({
     balanceDue: Joi.number().min(0).required(),
   }).required(),
 
-  notes: Joi.string().allow("", null),
-  terms: Joi.string().allow("", null),
+  notes: Joi.string().trim().allow("", null),
+  terms: Joi.string().trim().allow("", null),
   status: Joi.string().allow("", null),
 });
 
