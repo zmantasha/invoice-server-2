@@ -20,7 +20,7 @@ class UserValidation{
     static updateUserValidateSchema= Joi.object({
         firstName:Joi.string().required().max(50),
         lastName:Joi.string().max(50).allow(''),
-        address:Joi.string().max(50).allow('')
+        address:Joi.string().trim().allow('')
     })
     // joi update validation schema
     static updateUserFileValidateSchema= Joi.object({
