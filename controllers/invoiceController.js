@@ -127,20 +127,24 @@ static uploadSenderLogo=async(req,res)=>{
 
 
   // status Update
- static updateInvoicestatus =async (req, res)=>{
-     try {
-      // const {id}=req.params;
-      const {status,total}= req.body
-      
-      const updatedInvoice=await InvoiceServiceInstance.updateInvoiceStatus(req.params.id,status,total)
-      console.log(updatedInvoice)
-      if (!updatedInvoice)
-        return res.status(404).json({ message: "Invoice not found" });
-      res.status(200).json(updatedInvoice);
-     } catch (error) {
-      res.status(500).send({ message: 'Internal Server Error', error });
-     }
+static updateInvoicestatus = async (req, res) => {
+  try {
+    const { status, total, amountPaid, balanceDue } = req.body;
+
+    const updatedInvoice = await InvoiceServiceInstance.updateInvoiceStatus(
+      req.params.id, status, total, amountPaid, balanceDue
+    );
+
+    if (!updatedInvoice) {
+      return res.status(404).json({ message: "Invoice not found" });
+    }
+
+    res.status(200).json(updatedInvoice);
+  } catch (error) {
+    console.error("Error updating invoice status:", error);
+    res.status(500).send({ message: "Internal Server Error", error });
   }
+};
 
 
 
