@@ -64,19 +64,23 @@ class InvoiceServices {
 
 
   // update invoice
-  updateInvoiceStatus = async (id, status, total) => {
+  updateInvoiceStatus = async (id, status, total, amountPaid, balanceDue) => {
     try {
+      console.log("Updating status:", status);
+      
       const updateInvoice = await InvoiceModel.findByIdAndUpdate(
-        { _id: id },
+        id,  // Fixed: Pass id directly
         {
-          status: status,
-          "totals.amountPaid": total,  // Correct usage of dot notation
-          "totals.balanceDue": 0,      // Correct usage of dot notation
+          status,
+          "totals.amountPaid": amountPaid,   // Ensure totals is correctly structured
+          "totals.balanceDue": balanceDue,
         },
         { new: true }
       );
+  
       return updateInvoice;
     } catch (error) {
+      console.error("Error in updateInvoiceStatus:", error);
       throw error;
     }
   };
