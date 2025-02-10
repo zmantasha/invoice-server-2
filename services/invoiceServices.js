@@ -40,7 +40,6 @@ class InvoiceServices {
 
 
   getInvoiceByuserId=async(userId)=>{
-    console.log(userId)
     try {
       const getInvoicebyuserId = await InvoiceModel.find({userId: userId })
       return getInvoicebyuserId;
@@ -65,18 +64,22 @@ class InvoiceServices {
 
 
   // update invoice
-  updateInvoicestatus=async(id,status)=>{
+  updateInvoiceStatus = async (id, status, total) => {
     try {
-      console.log(status)
-      const updateinvoice = await InvoiceModel.findByIdAndUpdate({ _id: id }, 
-        {status:status}, 
-        {new: true}
-      )
-      return updateinvoice;
+      const updateInvoice = await InvoiceModel.findByIdAndUpdate(
+        { _id: id },
+        {
+          status: status,
+          "totals.amountPaid": total,  // Correct usage of dot notation
+          "totals.balanceDue": 0,      // Correct usage of dot notation
+        },
+        { new: true }
+      );
+      return updateInvoice;
     } catch (error) {
       throw error;
     }
-  }
+  };
   // Delete invoice
   deleteInvoice = async (id) => {
     try {
