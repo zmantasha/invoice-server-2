@@ -127,11 +127,12 @@ static uploadSenderLogo=async(req,res)=>{
 
 
   // status Update
-  static updateInvoicestatus =async (req, res)=>{
+ static updateInvoicestatus =async (req, res)=>{
      try {
       // const {id}=req.params;
-      const {status}= req.body
-      const updatedInvoice=await InvoiceServiceInstance.updateInvoicestatus(req.params.id,status)
+      const {status,total}= req.body
+      
+      const updatedInvoice=await InvoiceServiceInstance.updateInvoiceStatus(req.params.id,status,total)
       console.log(updatedInvoice)
       if (!updatedInvoice)
         return res.status(404).json({ message: "Invoice not found" });
