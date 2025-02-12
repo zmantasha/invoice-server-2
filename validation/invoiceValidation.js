@@ -33,7 +33,7 @@ const invoiceValidationSchema = Joi.object({
     dueDate: Joi.date().allow(null),
     paymentTerms: Joi.string().allow("", null),
     poNumber: Joi.string().allow("", null),
-    currency: Joi.string().valid("USD", "EUR", "GBP","INR").default("USD"),
+    currency: Joi.string().valid("USD", "EUR", "GBP","INR","JPY").default("USD"),
   }),
 
   items: Joi.array()
